@@ -2,39 +2,32 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class VendingMachine {
 
-
-
+    private Map<String, Double> itemList = new HashMap<>();
     public VendingMachine() {
     }
 
-//    private String[] itemsList;
-    private List<String> itemList;
-
-
-    public List getInventory() {
-
-        File vendingMachineList = new File("C:\\Users\\Student\\workspace\\module-1-capstone-team-4\\capstone\\vendingmachine.csv");
+    public void getInventory() {
+        File vendingMachineList = new File("vendingmachine.csv");
         try (Scanner fileInput = new Scanner(vendingMachineList)) {
 
             while (fileInput.hasNextLine()) {
-                String lineOfText = fileInput.nextLine();
-//                lineOfText.split("|");
-                itemList.add(lineOfText);
-                System.out.println(lineOfText);
+                String [] lineOfText = fileInput.nextLine().split("\\|");
+                double price = Double.parseDouble(lineOfText[2]);
+                itemList.put(lineOfText[0], price);
+                System.out.println("Slot: " + lineOfText[0] + " | Item Name: " + lineOfText[1] + " | Price: " + price);
             }
-
-        }catch (NullPointerException e){
-            System.out.println("The file was not found " + e.getMessage());
 
         }catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
+        }catch (NumberFormatException e){
+            System.out.println("Wrong Format");
         }
-        return itemList;
+    }
+    public void purchaseItem(){
 
     }
 }
