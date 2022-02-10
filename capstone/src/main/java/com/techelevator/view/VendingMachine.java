@@ -8,22 +8,33 @@ import java.util.Scanner;
 public class VendingMachine {
 
 
-//    private String[] itemsList;
-//    private List<String> itemList;
 
-    public void getInventory() {
+    public VendingMachine() {
+    }
+
+//    private String[] itemsList;
+    private List<String> itemList;
+
+
+    public List getInventory() {
 
         File vendingMachineList = new File("C:\\Users\\Student\\workspace\\module-1-capstone-team-4\\capstone\\vendingmachine.csv");
         try (Scanner fileInput = new Scanner(vendingMachineList)) {
 
             while (fileInput.hasNextLine()) {
                 String lineOfText = fileInput.nextLine();
-                lineOfText.split("|");
+//                lineOfText.split("|");
+                itemList.add(lineOfText);
+                System.out.println(lineOfText);
             }
 
-        } catch (FileNotFoundException e) {
-            System.out.println("There file was not found");
+        }catch (NullPointerException e){
+            System.out.println("The file was not found " + e.getMessage());
+
+        }catch (FileNotFoundException e) {
+                System.out.println("The file was not found");
         }
+        return itemList;
 
     }
 }
