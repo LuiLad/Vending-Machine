@@ -85,8 +85,6 @@
       </breakpoints>
     </breakpoint-manager>
 
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
->>>>>>> 1a80619ffef2afd9dd1e4a9d51754e0bbc0c5da4
+ 
   </component>
 </project>
