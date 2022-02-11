@@ -19,6 +19,7 @@ public class VendingMachineCLI {
 
     private Menu menu;
     private VendingMachine vm;
+
     public VendingMachineCLI(Menu menu) {
         this.menu = menu;
     }
@@ -34,21 +35,21 @@ public class VendingMachineCLI {
                 // display vending machine items
                 System.out.println();
                 vm.getInventory();
-
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 // do purchase
-                System.out.println("\n\nCurrent Money Provided: " + vm.currentMoney());
+//                System.out.println("\n\nCurrent Money Provided: " + vm.currentMoney());
                 while (true) {
                     choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
                     if (choice.equals(PURCHASE_MENU_OPTIONS[0])) {
-                        vm.feedMoney();
 
-                    }else if (choice.equals(PURCHASE_MENU_OPTIONS[1])){
+                    } else if (choice.equals(PURCHASE_MENU_OPTIONS[1])) {
 
-                    }else if (choice.equals(PURCHASE_MENU_OPTIONS[2])){
+                    } else if (choice.equals(PURCHASE_MENU_OPTIONS[2])) {
                         break;
                     }
                 }
+                System.out.println();
+                System.out.println("Current Money Provided: " + vm.currentMoney());
             } else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
                 break;
             }
