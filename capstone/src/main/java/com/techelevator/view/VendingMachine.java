@@ -3,12 +3,25 @@ package com.techelevator.view;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import com.techelevator.view.Menu;
 
-public class VendingMachine {
+import javax.management.ListenerNotFoundException;
 
-    private Map<String, Double> itemList = new HashMap<>();
-    public VendingMachine() {
-    }
+public class VendingMachine{
+    private Item item;
+    private Map<String, Double> inventory;
+    private List<String> itemList;
+    private int quantity = 5;
+    private double currentBalance = 0.00;
+    private double moneyDeposited;
+    private double moneySpent;
+    private String refund;
+//    private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
+//	private static final String  PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
+//	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
+//	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION };
+//    private Menu menu;
+
 
     public void getInventory() {
         File vendingMachineList = new File("vendingmachine.csv");
@@ -17,8 +30,8 @@ public class VendingMachine {
             while (fileInput.hasNextLine()) {
                 String [] lineOfText = fileInput.nextLine().split("\\|");
                 double price = Double.parseDouble(lineOfText[2]);
-                itemList.put(lineOfText[0], price);
-                System.out.println("Slot: " + lineOfText[0] + " | Item Name: " + lineOfText[1] + " | Price: " + price);
+                System.out.println("Slot: " + lineOfText[0] + " | Item Name: " + lineOfText[1] + " | Price: " + price + " | Item Type: " + lineOfText[3] + " | Quantity: " + quantity);
+
             }
 
         }catch (FileNotFoundException e) {
@@ -27,7 +40,11 @@ public class VendingMachine {
             System.out.println("Wrong Format");
         }
     }
-    public void purchaseItem(){
-
+    public double currentMoney(){
+        return currentBalance;
+    }
+    public void feedMoney(){
+        currentBalance += moneyDeposited;
+        System.out.println(currentBalance);
     }
 }
