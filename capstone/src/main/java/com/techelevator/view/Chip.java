@@ -8,7 +8,8 @@ public class Chip extends Item{
 
     @Override
     public String getSound() {
-        return null;
+
+        return "Crunch Crunch, Yum!";
     }
 
 }

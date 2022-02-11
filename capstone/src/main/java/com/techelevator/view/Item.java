@@ -7,11 +7,11 @@ public abstract class Item {
     private String itemType;
     private int quantity;
 
-    public String getItemlot() {
+    public String getItemSlot() {
         return itemSlot;
     }
 
-    public void setItemlot(String itemSlot) {
+    public void setItemSlot(String itemSlot) {
         this.itemSlot = itemSlot;
     }
 

@@ -8,7 +8,8 @@ public class Drink extends Item{
 
     @Override
     public String getSound() {
-        return null;
+
+        return "Glug Glug, Yum!";
     }
 
 }
