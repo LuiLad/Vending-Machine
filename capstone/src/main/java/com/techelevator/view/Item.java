@@ -1,12 +1,13 @@
 package com.techelevator.view;
 
+import java.math.BigDecimal;
+
 public abstract class Item {
+    private String itemSlot;
     private String name;
-    private double price;
-<<<<<<< HEAD
-=======
+    private BigDecimal price;
     private String itemType;
-    private int quantity;
+    private int quantity = 5;
 
     public String getItemSlot() {
         return itemSlot;
@@ -24,11 +25,11 @@ public abstract class Item {
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -47,14 +48,13 @@ public abstract class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public Item(String itemSlot, String name, double price, String itemType, int quantity) {
+
+    public Item(String itemSlot, String name, BigDecimal price, String itemType) {
         this.itemSlot = itemSlot;
         this.name = name;
         this.price = price;
         this.itemType = itemType;
-        this.quantity = quantity;
     }
->>>>>>> 1d8faf2a31cfd8ed4c47a34ae88708613be1ee21
 
     //    Method
     public abstract String getSound();

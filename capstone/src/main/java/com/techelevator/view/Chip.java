@@ -1,14 +1,15 @@
 package com.techelevator.view;
 
-public class Chip extends Item{
+import java.math.BigDecimal;
 
+public class Chip extends Item {
+
+    public Chip(String itemSlot, String name, BigDecimal price, String itemType) {
+        super(itemSlot, name, price, itemType);
+    }
 
     @Override
     public String getSound() {
-<<<<<<< HEAD
-=======
-
->>>>>>> 1d8faf2a31cfd8ed4c47a34ae88708613be1ee21
         return "Crunch Crunch, Yum!";
     }
 
