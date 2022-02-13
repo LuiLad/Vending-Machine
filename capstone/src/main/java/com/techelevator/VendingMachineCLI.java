@@ -31,7 +31,10 @@ public class VendingMachineCLI {
         vm = new VendingMachine();
 
         while (true) {
+
+
             String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+
 
 
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
@@ -41,7 +44,7 @@ public class VendingMachineCLI {
 
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 // do purchase
-                System.out.println("\n\nCurrent Money Provided: " + vm.currentMoney());
+
                 while (true) {
                     choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
                     if (choice.equals(PURCHASE_MENU_OPTIONS[0])) {
@@ -50,6 +53,8 @@ public class VendingMachineCLI {
                     }else if (choice.equals(PURCHASE_MENU_OPTIONS[1])){
 
                     }else if (choice.equals(PURCHASE_MENU_OPTIONS[2])){
+
+
                         break;
                     }
                 }

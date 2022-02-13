@@ -2,12 +2,14 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 import com.techelevator.view.Menu;
 
 import javax.management.ListenerNotFoundException;
+import javax.print.DocFlavor;
 
-public class VendingMachine{
+public class VendingMachine {
     private Item item;
     private Map<String, Double> inventory;
     private List<String> itemList;
@@ -16,11 +18,7 @@ public class VendingMachine{
     private double moneyDeposited;
     private double moneySpent;
     private String refund;
-//    private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
-//	private static final String  PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
-//	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-//	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION };
-//    private Menu menu;
+
 
 
     public void getInventory() {
@@ -40,11 +38,9 @@ public class VendingMachine{
             System.out.println("Wrong Format");
         }
     }
-    public double currentMoney(){
-        return currentBalance;
-    }
+
     public void feedMoney(){
-        currentBalance += moneyDeposited;
+         += moneyDeposited;
         System.out.println(currentBalance);
     }
 }
