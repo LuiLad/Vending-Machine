@@ -8,20 +8,27 @@ import java.util.*;
 
 
 public class VendingMachine {
-    private Item item;
-    private Map<String, Double> inventory;
     private List<Item> itemList = new ArrayList<Item>();
     private int quantity = 5;
     private BigDecimal currentBalance = BigDecimal.ZERO;
+    private BigDecimal previousBalance;
+    private String itemNameAndSlot;
+
+    public BigDecimal getPreviousBalance() {
+        return previousBalance;
+    }
 
     public BigDecimal getCurrentBalance() {
         return currentBalance;
     }
 
+    public List<Item> getItemList() {
+        return itemList;
+    }
     //Option 1
-    public List<Item> getInventory() {
-        File vendingMachineList = new File("vendingmachine.csv");
-        try (Scanner fileInput = new Scanner(vendingMachineList)) {
+    public List<Item> getInventory(File fileName) {
+//        File vendingMachineList = new File("vendingmachine.csv");
+        try (Scanner fileInput = new Scanner(/*vendingMachineList*/ fileName)) {
 
             while (fileInput.hasNextLine()) {
                 String[] lineOfText = fileInput.nextLine().split("\\|");
@@ -53,26 +60,25 @@ public class VendingMachine {
 
     //Purchase menu - Feed Menu Option
     public BigDecimal feedMoney() {
+        DecimalFormat df = new DecimalFormat("0.00");
         Scanner userInput = new Scanner(System.in);
-        System.out.println("---------------------------");
-        System.out.println("Do you want to add money? \n 1) Yes \n 2) No");
         while (true) {
+            previousBalance = currentBalance;
+            System.out.println("\nCurrent Money Provided: " + "$" + df.format(currentBalance));
+            System.out.println("---------------------------");
+            System.out.println("Do you want to add more money? \n 1) Yes \n 2) No");
             int choice = userInput.nextInt();
             if (choice == 1) {
                 while (true) {
                     System.out.print("Input U.S Currency amount in $1.00, $2.00, $5.00 and $10.00: ");
                     choice = userInput.nextInt();
-                    System.out.println();
-                    System.out.println("Do you want to add more money? \n 1) Yes \n 2) No");
                     if (choice == 1 || choice == 2 || choice == 5 || choice == 10) {
                         this.currentBalance = currentBalance.add(BigDecimal.valueOf(choice));
-                        DecimalFormat df = new DecimalFormat("#.00");
-                        System.out.println("\nCurrent Money Provided: " + "$" + df.format(currentBalance));
-                        break;
+                        Log.addToLog("FEED MONEY:", previousBalance, currentBalance);
                     } else {
                         System.out.println("Not valid input.");
-                        break;
                     }
+                    break;
                 }
             } else if (choice == 2) {
                 break;
@@ -86,6 +92,7 @@ public class VendingMachine {
     public BigDecimal selectProduct() {
         List itemSlots = new ArrayList();
         while (true) {
+            previousBalance = currentBalance;
             for (Item item : itemList) {
                 itemSlots.add(item.getItemSlot());
                 System.out.println("Slot: " + item.getItemSlot() + " | " + "Item Name: " + item.getName() + " | " + "Item Price: " + item.getPrice() + " | " + "Item Type: " + item.getItemType() + " | " + "Item Quantity: " + item.getQuantity());
@@ -93,8 +100,6 @@ public class VendingMachine {
             Scanner userInput = new Scanner(System.in);
             System.out.println();
             DecimalFormat df = new DecimalFormat("0.00");
-            System.out.println("Current Money Provided: " + "$" + df.format(currentBalance));
-            System.out.println();
             System.out.print("Enter a slot to select a product: ");
             String choice = userInput.nextLine();
             if (!itemSlots.contains(choice)) {
@@ -103,21 +108,31 @@ public class VendingMachine {
                 System.out.println();
                 break;
             }
+            if (currentBalance.compareTo(BigDecimal.ZERO) <= 0){
+                System.out.println();
+                System.out.println("Not enough money provided");
+                System.out.println();
+                break;
+            }
+            System.out.println("Current Money Provided: " + "$" + df.format(currentBalance));
+            System.out.println();
             for (int i = 0; i < itemList.size(); i++) {
+
                 String itemSlot = itemList.get(i).getItemSlot();
                 if ((itemSlot.equals(choice)) && (itemList.get(i).getQuantity() > 0) && (currentBalance.compareTo(itemList.get(i).getPrice()) > 0)) {
                     this.currentBalance = currentBalance.subtract(itemList.get(i).getPrice());
                     itemList.get(i).setQuantity(itemList.get(i).getQuantity() - 1);
+                    itemNameAndSlot = itemList.get(i).getName() + " " + itemList.get(i).getItemSlot();
                     System.out.println("Item Name: " + itemList.get(i).getName());
                     System.out.println("Item Price: " + itemList.get(i).getPrice());
                     System.out.println(itemList.get(i).getSound());
+                    Log.addToLog(itemNameAndSlot, previousBalance, currentBalance);
                 } else if (itemSlot.equals(choice) && itemList.get(i).getQuantity() <= 0) {
                     System.out.println();
                     System.out.println("SOLD OUT");
                     System.out.println();
                     break;
-                } else if (currentBalance.compareTo(BigDecimal.ZERO) <= 0 && currentBalance.compareTo(itemList.get(i).getPrice()) <= 0) {
-                    System.out.println();
+                } else if (itemSlot.equals(choice) && currentBalance.compareTo(itemList.get(i).getPrice()) == -1) {
                     System.out.println("Not enough money provided");
                     System.out.println();
                     break;
@@ -132,22 +147,21 @@ public class VendingMachine {
         int quarterCount = 0;
         int dimeCount = 0;
         int nickelCount = 0;
-//        double currentBalanceInt = Double.valueOf(currentBalance.doubleValue());
-        while /*(currentBalanceInt - .25 >= 0 && currentBalanceInt % .25 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) >= 0) {
-//            currentBalanceInt -= .25;
+        previousBalance = currentBalance;
+        while (currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) >= 0) {
             quarterCount++;
             this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.25));
         }
-        while /*(currentBalanceInt - .10 >= 0 && currentBalanceInt % .10 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) >= 0){
-//            currentBalanceInt -= .10;
+        while (currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) >= 0){
             dimeCount++;
             this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.10));
         }
-        while /*(currentBalanceInt - .05 >= 0 && currentBalanceInt % .05 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) >= 0){
-////            currentBalanceInt -= .05;
+        while (currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) >= 0){
             nickelCount++;
             this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.05));
         }
+        Log.addToLog("GIVE CHANGE:", previousBalance, currentBalance);
+        System.out.println();
         System.out.println("Here's your change: \nQuarter count: " + quarterCount + "\nDime count: " + dimeCount + "\nNickel count: " + nickelCount);
         return currentBalance;
     }

@@ -50,6 +50,9 @@ public abstract class Item {
         this.quantity = quantity;
     }
 
+    public Item() {
+    }
+
     public Item(String itemSlot, String name, BigDecimal price, String itemType) {
             this.itemSlot = itemSlot;
             this.name = name;

@@ -1,17 +1,20 @@
 package com.techelevator;
 
 import com.techelevator.view.Item;
+import com.techelevator.view.Log;
 import com.techelevator.view.Menu;
 import com.techelevator.view.VendingMachine;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Scanner;
 
 public class VendingMachineCLI {
     private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
     private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
     private static final String MAIN_MENU_OPTION_EXIT = "Exit";
-
 
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
@@ -23,14 +26,15 @@ public class VendingMachineCLI {
     private List<Item> itemList;
     private Menu menu;
     private VendingMachine vm;
-
     public VendingMachineCLI(Menu menu) {
         this.menu = menu;
     }
 
-    public void run() {
+    public void run() throws IOException {
+        File vendingMachineList = new File("vendingmachine.csv");
+        Log.createLogFile();
         vm = new VendingMachine();
-        itemList = vm.getInventory();
+        itemList = vm.getInventory(vendingMachineList);
         while (true) {
 
 
@@ -56,7 +60,6 @@ public class VendingMachineCLI {
                     if (choice.equals(PURCHASE_MENU_OPTIONS[0])) {
                         System.out.println();
                         df = new DecimalFormat("0.00");
-                        System.out.println("Current Money Provided: " + "$" + df.format(vm.getCurrentBalance()));
                         vm.feedMoney();
                         //method for feeding money. take input of currency
                     } else if (choice.equals(PURCHASE_MENU_OPTIONS[1])) {
@@ -82,7 +85,7 @@ public class VendingMachineCLI {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Menu menu = new Menu(System.in, System.out);
         VendingMachineCLI cli = new VendingMachineCLI(menu);
         cli.run();
