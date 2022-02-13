@@ -82,6 +82,7 @@ public class VendingMachine {
         }
         return currentBalance;
     }
+
     public BigDecimal selectProduct() {
         List itemSlots = new ArrayList();
         while (true) {
@@ -96,7 +97,7 @@ public class VendingMachine {
             System.out.println();
             System.out.print("Enter a slot to select a product: ");
             String choice = userInput.nextLine();
-            if (!itemSlots.contains(choice)){
+            if (!itemSlots.contains(choice)) {
                 System.out.println();
                 System.out.println("Not valid item slot");
                 System.out.println();
@@ -110,12 +111,12 @@ public class VendingMachine {
                     System.out.println("Item Name: " + itemList.get(i).getName());
                     System.out.println("Item Price: " + itemList.get(i).getPrice());
                     System.out.println(itemList.get(i).getSound());
-                }else if (itemSlot.equals(choice) && itemList.get(i).getQuantity() <= 0){
+                } else if (itemSlot.equals(choice) && itemList.get(i).getQuantity() <= 0) {
                     System.out.println();
                     System.out.println("SOLD OUT");
                     System.out.println();
                     break;
-                }else if (currentBalance.compareTo(BigDecimal.ZERO) <= 0){
+                } else if (currentBalance.compareTo(BigDecimal.ZERO) <= 0 && currentBalance.compareTo(itemList.get(i).getPrice()) <= 0) {
                     System.out.println();
                     System.out.println("Not enough money provided");
                     System.out.println();
@@ -126,7 +127,29 @@ public class VendingMachine {
         }
         return currentBalance;
     }
-    public int finishTransaction() {
-        return 0;
+
+    public BigDecimal finishTransaction() {
+        int quarterCount = 0;
+        int dimeCount = 0;
+        int nickelCount = 0;
+//        double currentBalanceInt = Double.valueOf(currentBalance.doubleValue());
+        while /*(currentBalanceInt - .25 >= 0 && currentBalanceInt % .25 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.25)).compareTo(BigDecimal.ZERO) >= 0) {
+//            currentBalanceInt -= .25;
+            quarterCount++;
+            this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.25));
+        }
+        while /*(currentBalanceInt - .10 >= 0 && currentBalanceInt % .10 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.10)).compareTo(BigDecimal.ZERO) >= 0){
+//            currentBalanceInt -= .10;
+            dimeCount++;
+            this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.10));
+        }
+        while /*(currentBalanceInt - .05 >= 0 && currentBalanceInt % .05 >= 0)*/ (currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 0 || currentBalance.subtract(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) == 1 && currentBalance.remainder(BigDecimal.valueOf(.05)).compareTo(BigDecimal.ZERO) >= 0){
+////            currentBalanceInt -= .05;
+            nickelCount++;
+            this.currentBalance = currentBalance.subtract(BigDecimal.valueOf(.05));
+        }
+        System.out.println("Here's your change: \nQuarter count: " + quarterCount + "\nDime count: " + dimeCount + "\nNickel count: " + nickelCount);
+        return currentBalance;
     }
 }
+

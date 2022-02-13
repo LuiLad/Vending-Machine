@@ -67,6 +67,7 @@ public class VendingMachineCLI {
                         //method for selecting the product. update quantity if sufficient funds. if sold out show sold out
                     } else if (choice.equals(PURCHASE_MENU_OPTIONS[2])) {
                         //method for finishing
+                        vm.finishTransaction();
                         break;
                     }
                 }
