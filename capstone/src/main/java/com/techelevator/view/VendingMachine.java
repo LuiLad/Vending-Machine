@@ -8,8 +8,11 @@ import java.util.*;
 
 
 public class VendingMachine {
-    private List<Item> itemList = new ArrayList<>();
-    private BigDecimal currentBalance = BigDecimal.valueOf(0);
+    private Item item;
+    private Map<String, Double> inventory;
+    private List<Item> itemList = new ArrayList<Item>();
+    private int quantity = 5;
+    private BigDecimal currentBalance = BigDecimal.ZERO;
 
     public BigDecimal getCurrentBalance() {
         return currentBalance;
@@ -50,15 +53,15 @@ public class VendingMachine {
 
     //Purchase menu - Feed Menu Option
     public BigDecimal feedMoney() {
-        Scanner userinput = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
         System.out.println("---------------------------");
         System.out.println("Do you want to add money? \n 1) Yes \n 2) No");
         while (true) {
-            int choice = userinput.nextInt();
-          if (choice == 1) {
+            int choice = userInput.nextInt();
+            if (choice == 1) {
                 while (true) {
                     System.out.print("Input U.S Currency amount in $1.00, $2.00, $5.00 and $10.00: ");
-                    choice = userinput.nextInt();
+                    choice = userInput.nextInt();
                     System.out.println();
                     System.out.println("Do you want to add more money? \n 1) Yes \n 2) No");
                     if (choice == 1 || choice == 2 || choice == 5 || choice == 10) {
@@ -79,9 +82,8 @@ public class VendingMachine {
         }
         return currentBalance;
     }
-
     public BigDecimal selectProduct() {
-        List <String> itemSlots = new ArrayList<>();
+        List itemSlots = new ArrayList();
         while (true) {
             for (Item item : itemList) {
                 itemSlots.add(item.getItemSlot());
@@ -108,15 +110,14 @@ public class VendingMachine {
                     System.out.println("Item Name: " + itemList.get(i).getName());
                     System.out.println("Item Price: " + itemList.get(i).getPrice());
                     System.out.println(itemList.get(i).getSound());
-                    break;
-                } else if (itemSlot.equals(choice) && itemList.get(i).getQuantity() <= 0) {
+                }else if (itemSlot.equals(choice) && itemList.get(i).getQuantity() <= 0){
                     System.out.println();
                     System.out.println("SOLD OUT");
                     System.out.println();
                     break;
-                } else if (currentBalance.compareTo(BigDecimal.ZERO) <= 0) {
+                }else if (currentBalance.compareTo(BigDecimal.ZERO) <= 0){
                     System.out.println();
-                    System.out.println("!!! Current Money Provided Insufficient !!!");
+                    System.out.println("Not enough money provided");
                     System.out.println();
                     break;
                 }
@@ -125,9 +126,7 @@ public class VendingMachine {
         }
         return currentBalance;
     }
-
     public int finishTransaction() {
         return 0;
     }
 }
-

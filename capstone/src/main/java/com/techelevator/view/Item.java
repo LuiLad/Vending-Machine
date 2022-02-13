@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.math.BigDecimal;
 
 public abstract class Item {
+
     private String itemSlot;
     private String name;
     private BigDecimal price;
@@ -50,13 +51,13 @@ public abstract class Item {
     }
 
     public Item(String itemSlot, String name, BigDecimal price, String itemType) {
-        this.itemSlot = itemSlot;
-        this.name = name;
-        this.price = price;
-        this.itemType = itemType;
-    }
+            this.itemSlot = itemSlot;
+            this.name = name;
+            this.price = price;
+            this.itemType = itemType;
+        }
 
-    //    Method
-    public abstract String getSound();
+        //    Method
+        public abstract String getSound ();
 
 }

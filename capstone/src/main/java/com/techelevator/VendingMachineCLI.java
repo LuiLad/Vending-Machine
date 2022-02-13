@@ -32,7 +32,10 @@ public class VendingMachineCLI {
         vm = new VendingMachine();
         itemList = vm.getInventory();
         while (true) {
+
+
             String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+
 
 
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
@@ -46,6 +49,7 @@ public class VendingMachineCLI {
                 System.out.println();
                 DecimalFormat df = new DecimalFormat("0.00");
                 System.out.println("Current Money Provided: " + "$" + df.format(vm.getCurrentBalance()));
+
                 while (true) {
 
                     choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
