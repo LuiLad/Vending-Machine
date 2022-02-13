@@ -43,18 +43,22 @@ public class VendingMachineCLI {
 
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 // do purchase
+                System.out.println();
+                DecimalFormat df = new DecimalFormat("0.00");
+                System.out.println("Current Money Provided: " + "$" + df.format(vm.getCurrentBalance()));
                 while (true) {
 
                     choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
                     if (choice.equals(PURCHASE_MENU_OPTIONS[0])) {
-                        vm.feedMoney();
-                        DecimalFormat df = new DecimalFormat("0.00");
+                        System.out.println();
+                        df = new DecimalFormat("0.00");
                         System.out.println("Current Money Provided: " + "$" + df.format(vm.getCurrentBalance()));
+                        vm.feedMoney();
                         //method for feeding money. take input of currency
                     } else if (choice.equals(PURCHASE_MENU_OPTIONS[1])) {
                         //show current inventory stock
                         vm.selectProduct();
-                        DecimalFormat df = new DecimalFormat("0.00");
+                        df = new DecimalFormat("0.00");
                         System.out.println("Current Money Provided: " + "$" + df.format(vm.getCurrentBalance()));
                         //method for selecting the product. update quantity if sufficient funds. if sold out show sold out
                     } else if (choice.equals(PURCHASE_MENU_OPTIONS[2])) {
