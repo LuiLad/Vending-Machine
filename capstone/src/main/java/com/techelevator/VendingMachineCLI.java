@@ -20,9 +20,14 @@ public class VendingMachineCLI {
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
     private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 
+    private static final String FEED_MONEY_OPTION_1 = "One Dollar";
+    private static final String FEED_MONEY_OPTION_2 = "Two Dollars";
+    private static final String FEED_MONEY_OPTION_3 = "Five Dollars";
+    private static final String FEED_MONEY_OPTION_4 = "Ten Dollars";
+
     private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT};
     private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
-
+    private static final String[] FEED_MONEY_MENU_OPTIONS = {FEED_MONEY_OPTION_1, FEED_MONEY_OPTION_2, FEED_MONEY_OPTION_3, FEED_MONEY_OPTION_4};
     private List<Item> itemList;
     private Menu menu;
     private VendingMachine vm;
@@ -37,10 +42,7 @@ public class VendingMachineCLI {
         itemList = vm.getInventory(vendingMachineList);
         while (true) {
 
-
             String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-
-
 
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
                 // display vending machine items
@@ -60,7 +62,7 @@ public class VendingMachineCLI {
                     if (choice.equals(PURCHASE_MENU_OPTIONS[0])) {
                         System.out.println();
                         df = new DecimalFormat("0.00");
-                        vm.feedMoney();
+                        vm.feedMoneySubMenu();
                         //method for feeding money. take input of currency
                     } else if (choice.equals(PURCHASE_MENU_OPTIONS[1])) {
                         //show current inventory stock
@@ -84,7 +86,9 @@ public class VendingMachineCLI {
             }
         }
     }
+    public void feedMoneySubMenu(){
 
+    }
     public static void main(String[] args) throws IOException {
         Menu menu = new Menu(System.in, System.out);
         VendingMachineCLI cli = new VendingMachineCLI(menu);
